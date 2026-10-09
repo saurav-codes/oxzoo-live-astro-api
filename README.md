@@ -1,6 +1,10 @@
 # astro-api
 
-> **Role in the zoo:** project `astro-api` of [oxzoo-live](https://github.com/saurav-codes/oxzoo-live-control/blob/main/zoo/README.md#projects), deployed with ox on server s4 at https://astro-api.s4.zoo.sorv.dev. The contract it follows is [DESIGN.md](https://github.com/saurav-codes/oxzoo-live-control/blob/main/zoo/DESIGN.md).
+Deployed with [ox](https://deploywithox.com): deploy a repo to your own server with one command, no Docker. [Docs](https://deploywithox.com/docs) · [Guide for this stack](https://deploywithox.com/docs/guides/astro)
+
+**Live demo:** https://astro-api.s4.zoo.sorv.dev
+
+> **Role in the zoo:** project `astro-api` of [oxzoo-live](https://github.com/saurav-codes/oxzoo-live-control/blob/main/zoo/README.md#projects), deployed with [ox](https://deploywithox.com) on server s4 at https://astro-api.s4.zoo.sorv.dev. The contract it follows is [DESIGN.md](https://github.com/saurav-codes/oxzoo-live-control/blob/main/zoo/DESIGN.md).
 
 Server s4, `https://astro-api.s4.zoo.sorv.dev`. Astro 7 static site plus a small Hono API
 (Node 24, `@hono/node-server`) behind the same domain. Proof level P2.
