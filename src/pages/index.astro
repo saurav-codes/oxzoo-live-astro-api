@@ -1,0 +1,62 @@
+---
+const tag = import.meta.env.PUBLIC_BUILD_TAG || '';
+const builtAt = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="zoo-build-tag" content={tag} />
+    <title>astro-api</title>
+    <style>
+      body { font: 16px/1.5 system-ui, sans-serif; max-width: 42rem; margin: 3rem auto; padding: 0 1rem; color: #333; }
+      code, pre { background: #f4f4f4; border-radius: 6px; padding: 0.1rem 0.3rem; }
+      pre { padding: 0.8rem; overflow-x: auto; }
+      .ok { color: #1a7f37; } .bad { color: #c62828; }
+      input, button { font: inherit; padding: 0.3rem 0.6rem; }
+    </style>
+  </head>
+  <body>
+    <h1>astro-api</h1>
+    <p>
+      This page is static HTML built by Astro and served by Caddy. The JSON below comes from a
+      Hono process behind the same domain: <code>[static] api</code> routes <code>/api</code> and
+      <code>/_zoo</code> to it.
+    </p>
+    <p>Built with tag <code>{tag || '(none)'}</code> at <code>{builtAt}</code>.</p>
+
+    <h2>Runtime</h2>
+    <p id="match">Asking the API...</p>
+    <pre id="info"></pre>
+
+    <h2>Greet</h2>
+    <form id="hello">
+      <input name="name" maxlength="32" pattern="[A-Za-z0-9 _-]{1,32}" placeholder="your name" required />
+      <button>Say hello</button>
+    </form>
+    <pre id="greeting"></pre>
+
+    <script define:vars={{ tag }}>
+      const show = (id, v) => (document.getElementById(id).textContent = JSON.stringify(v, null, 2));
+      fetch('/api/info', { signal: AbortSignal.timeout(5000) })
+        .then((r) => r.json())
+        .then((info) => {
+          show('info', info);
+          const el = document.getElementById('match');
+          const same = info.runtime_tag === tag;
+          el.className = same ? 'ok' : 'bad';
+          el.textContent = same
+            ? `The page and the API agree on tag ${tag}.`
+            : `The page was built with ${tag || '(none)'} but the API runs with ${info.runtime_tag ?? '(none)'}.`;
+        })
+        .catch((e) => (document.getElementById('match').textContent = `API unreachable: ${e.message}`));
+      document.getElementById('hello').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const name = new FormData(ev.target).get('name');
+        const r = await fetch('/api/hello?name=' + encodeURIComponent(name), { signal: AbortSignal.timeout(5000) });
+        show('greeting', await r.json());
+      });
+    </script>
+  </body>
+</html>

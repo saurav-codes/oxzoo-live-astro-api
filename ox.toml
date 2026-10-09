@@ -1,0 +1,7 @@
+# Caddy serves the Astro build; /api and /_zoo go to the Hono app (start from package.json).
+[app]
+health = "/_zoo/health"
+
+[static]
+dir = "dist"
+api = ["/api", "/_zoo"]

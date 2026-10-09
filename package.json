@@ -1,0 +1,19 @@
+{
+  "name": "astro-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "build": "node scripts/build-info.ts && astro build",
+    "start": "node api/server.ts",
+    "test": "node --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.4",
+    "astro": "7.3.8",
+    "hono": "4.13.13"
+  }
+}
